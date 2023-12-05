@@ -2,7 +2,9 @@ package dev.patika.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -10,27 +12,28 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "vaccine")
 @Data
-@RequiredArgsConstructor // Bunu dene!!!
+@AllArgsConstructor
+@NoArgsConstructor
 public class Vaccine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
-    @NotNull
-    @Column(name = "name")
+
+    @Column(name = "name",nullable = false)
     private String name;
 
-    @NotNull
-    @Column(name = "code")
+
+    @Column(name = "code",nullable = false)
     private String code;
 
-    @NotNull
+
     @Temporal(TemporalType.DATE) ///
     @Column(name = "protection_start_date")
     private LocalDate protectionStartDate;
 
-    @NotNull
+
     @Temporal(TemporalType.DATE) ///
     @Column(name = "protection_finish_date")
     private LocalDate protectionFinishDate;
@@ -39,5 +42,5 @@ public class Vaccine {
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
-    // buraya ilişki eklenecek
+
 }

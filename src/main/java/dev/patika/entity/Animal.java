@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -13,22 +15,23 @@ import java.util.List;
 @Entity
 @Table(name = "animal")
 @Data
-@RequiredArgsConstructor // Bunu dene!!!
+@AllArgsConstructor
+@NoArgsConstructor
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
-    @NotNull
-    @Column(name = "name")
+
+    @Column(name = "name",nullable = false)
     private String name;
 
     @Column(name = "species")
     private String species;
 
-    @NotNull
-    @Column(name = "breed")
+
+    @Column(name = "breed",nullable = false)
     private String breed;
 
     @Column(name = "gender")
