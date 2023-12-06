@@ -22,7 +22,7 @@ public class Customer {
     @Column(name = "name", nullable = false)
     private String name;
 
-
+    @NotNull
     @Column(name = "phone", nullable = false)
     private String phone;
 
