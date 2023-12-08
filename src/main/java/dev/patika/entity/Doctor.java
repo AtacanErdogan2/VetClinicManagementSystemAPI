@@ -1,7 +1,9 @@
 package dev.patika.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,16 +20,19 @@ import java.util.List;
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     private Long id;
 
-    @Column(name = "name",nullable = false)
+    @NotEmpty
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "phone",nullable = false)
+    @NotEmpty
+    @Column(name = "phone")
     private String phone;
 
     @Email
+    @NotEmpty
     @Column(name = "mail")
     private String mail;
 
@@ -37,9 +42,12 @@ public class Doctor {
     @Column(name = "city")
     private String city;
 
-    @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Appointment> appointmentList;
 
-    @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<AvailableDate> availableDateList;
 }

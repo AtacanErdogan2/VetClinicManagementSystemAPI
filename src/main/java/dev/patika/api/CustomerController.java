@@ -1,11 +1,18 @@
 package dev.patika.api;
 
 import dev.patika.business.concretes.CustomerManager;
-import dev.patika.dto.request.CustomerSaveRequest;
-import dev.patika.dto.request.CustomerUpdateRequest;
+import dev.patika.core.result.Result;
+import dev.patika.core.result.ResultData;
+import dev.patika.core.utils.ResultHelper;
+import dev.patika.dto.request.CustomerRequest;
+import dev.patika.dto.response.CursorResponse;
 import dev.patika.dto.response.CustomerResponse;
+import dev.patika.entity.Customer;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,33 +23,47 @@ import java.util.List;
 public class CustomerController {
     private final CustomerManager customerManager;
 
-    @GetMapping()
-    @ResponseStatus(HttpStatus.OK)
-    public List<CustomerResponse> findAll() {
-        return customerManager.findAll();
-    }
-
-    @GetMapping("/{id}")
+    @GetMapping("/byId/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerResponse getById(@PathVariable("id") Long id) {
         return customerManager.getById(id);
     }
 
+    @GetMapping("/byName/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerResponse getByName(@PathVariable("name") String name) {
+        return customerManager.getByName(name);
+    }
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerResponse save(@RequestBody CustomerSaveRequest customerSaveRequest) {
-        return customerManager.create(customerSaveRequest);
+    public ResultData<CustomerResponse> save(@Valid @RequestBody CustomerRequest customerRequest) {
+        CustomerResponse customerResponse = customerManager.create(customerRequest);
+        return ResultHelper.created(customerResponse);
     }
 
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CustomerResponse update(@PathVariable Long id, @RequestBody CustomerUpdateRequest customerUpdateRequest) {
-        return customerManager.update(id, customerUpdateRequest);
+    public ResultData<CustomerResponse> update(@PathVariable Long id,@Valid @RequestBody CustomerRequest request) {
+        CustomerResponse customerResponse = customerManager.update(id, request);
+        return ResultHelper.updated(customerResponse);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id) {
+    public Result delete(@PathVariable("id") Long id) {
         customerManager.delete(id);
+        return ResultHelper.deleted();
+    }
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<CursorResponse<CustomerResponse>> cursor(
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "size", required = false, defaultValue = "10") int size
+    ){
+
+        return ResultHelper.cursor(customerManager.cursor(page, size));
+
     }
 }

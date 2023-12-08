@@ -1,23 +1,23 @@
 package dev.patika.dto.request;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerUpdateRequest {
-
-    @NotNull
+public class CustomerRequest {
+    @NotEmpty(message = "name value can't be empty")
     private String name;
-
-    @NotNull
+    @NotEmpty(message = "phone value can't be empty")
     private String phone;
 
     @Email
+    @NotEmpty(message = "mail value can't be empty")
     private String mail;
 
     private String address;
