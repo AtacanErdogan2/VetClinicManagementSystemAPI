@@ -25,7 +25,4 @@ public class AvailableDateRequest {
 
     private Doctor doctor;
 
-//    @NotEmpty(message = "doctor_id can't be empty")
-//    @Positive(message = "doctor_id must be positive")
-//    private Long doctor_id;
 }
