@@ -2,9 +2,7 @@ package dev.patika.dto.response;
 
 import dev.patika.entity.Appointment;
 import dev.patika.entity.Customer;
-import dev.patika.entity.Doctor;
 import dev.patika.entity.Vaccine;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

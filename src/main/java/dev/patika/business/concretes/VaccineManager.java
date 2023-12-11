@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,11 @@ public class VaccineManager implements IVaccineService {
         return vaccineMapper.asOutput(vaccineRepo.findById(id).orElseThrow(() -> new NotFoundException(Message.NOT_FOUND)));
     }
 
+    @Override
+    public List<VaccineResponse> getByProtectionFinishDate(LocalDate startDate, LocalDate endDate) {
+        return vaccineMapper.asOutput(vaccineRepo.findByProtectionFinishDateBetween(startDate, endDate).orElseThrow(() -> new NotFoundException(Message.NOT_FOUND)));
+    }
+
 //    @Override
 //    public VaccineResponse getByName(String name) {
 //        return vaccineMapper.asOutput(vaccineRepo.findByName(name).orElseThrow(() -> new NotFoundException(Message.NOT_FOUND)));
@@ -39,14 +45,14 @@ public class VaccineManager implements IVaccineService {
     @Override
     public VaccineResponse create(VaccineRequest request) {
 
-        if (request.getProtectionFinishDate().isAfter(request.getProtectionStartDate())){
+        if (request.getProtectionStartDate().isAfter(request.getProtectionFinishDate())){
             throw new LocalDateException();
         }
 
-        List<Vaccine> isVaccineExist = vaccineRepo.findVaccinesAfterStartDate(request.getCode(), request.getAnimal().getId(), request.getProtectionStartDate());
+        List<Vaccine> isVaccineValid = vaccineRepo.findVaccinesAfterStartDate(request.getCode(), request.getAnimal().getId(), request.getProtectionStartDate());
 
 
-        if (isVaccineExist.isEmpty()) {
+        if (isVaccineValid.isEmpty()) {
 
                 Vaccine vaccineSaved = vaccineRepo.save(vaccineMapper.asEntity(request));
 
