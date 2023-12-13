@@ -1,7 +1,7 @@
 # Vet Clinic Management System API
 
 ## Description
-- This is a vet clinic management system that allows the user to create, read, update, and delete data.
+- This is a simple vet clinic management system that allows the user to create, read, update, and delete data.
 - The data is stored in a PostgreSQL database. The API is built using Java Spring Boot and tested using Postman.
 - The API is hosted on the local machine and can be accessed using the following URL: http://localhost:8080/api/v1/
 
