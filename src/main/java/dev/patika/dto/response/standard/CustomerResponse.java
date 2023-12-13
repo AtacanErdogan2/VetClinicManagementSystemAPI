@@ -1,5 +1,6 @@
-package dev.patika.dto.response;
+package dev.patika.dto.response.standard;
 
+import dev.patika.dto.response.global.GlobalAnimalResponse;
 import dev.patika.entity.Animal;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -26,5 +27,5 @@ public class CustomerResponse {
 
     private String city;
 
-    private List<Animal> animalList;
+    private List<GlobalAnimalResponse> animalList;
 }
