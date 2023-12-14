@@ -14,4 +14,4 @@
 - Cascade delete is enabled for all entities where the remaining data would be irrelevant after deletion. (If a customer is deleted, all of their animals and appointments are deleted as well.)
 
 ## Endpoints
-- Endpoints and their functionalities are listed below:![image.png](image.png)
+- Endpoints and their functionalities are listed below: ![img.png](img.png)
